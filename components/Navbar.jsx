@@ -2,6 +2,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { AiOutlineMenuUnfold } from "react-icons/ai";
+import { IoIosCloseCircleOutline } from "react-icons/io"; 
 
 const Navbar = () => {
   const menuList = [
@@ -69,7 +71,7 @@ const Navbar = () => {
       </Link>
 
       <button onClick={()=> setNavOpen(!navOpen)} className="bg-orange-600 text-white py-1 px-5 ml-auto lg:hidden z-50">
-        {navOpen ? 'Close Nav' : "Open Nav"}
+        {navOpen ?  <IoIosCloseCircleOutline /> : <AiOutlineMenuUnfold /> }
       </button>
     </nav>
   );

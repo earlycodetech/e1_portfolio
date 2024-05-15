@@ -1,6 +1,7 @@
 import React from "react";
 import "../../styles/index.css";
 import Image from "next/image";
+import ProjectCard from "@/components/ProjectCard";
 const HomePage = () => {
   return (
     <main>
@@ -27,13 +28,11 @@ const HomePage = () => {
         </div>
       </div>
 
-
-      <div className="mt-10">
+      <div className="my-10">
         <h3 className="text-center font-bold text-2xl"> My Recent Projects </h3>
 
-
-        <div className="grid lg:grid-cols-3 md:grid-cols-2">
-          
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8 mx-2 md:mx-8">
+          <ProjectCard />
         </div>
       </div>
     </main>
