@@ -7,7 +7,7 @@ import { RiRefreshLine } from "react-icons/ri";
 const GoogleButton = () => {
     const [processing, setProccessing] = useState(false)
     const handleSignIn = ()=> {
-        signIn("google", { redirect: "/" });
+        signIn("google", { callbackUrl: "/" });
         setProccessing(true);
     }
   return (
