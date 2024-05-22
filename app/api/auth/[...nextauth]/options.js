@@ -7,18 +7,18 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT,
       clientSecret: process.env.GOOGLE_SECRET,
-      profile(profile){
+      profile(profile) {
         return {
-            id: profile.sub,
-            name: profile.name,
-            email: profile.email,
-            image: profile.picture,
-            address:null,
-            dob: null,
-            phoneNumber: null,
-            role: 'user',
-        }
-      }
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          address: null,
+          dob: null,
+          phoneNumber: null,
+          role: "user",
+        };
+      },
     }),
   ],
 
@@ -29,7 +29,18 @@ export const authOptions = {
     credential: cert({
       projectId: process.env.AUTH_FIREBASE_PROJECT_ID,
       clientEmail: process.env.AUTH_FIREBASE_CLIENT_EMAIL,
-      privateKey: process.env.AUTH_FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+      privateKey: process.env.AUTH_FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
     }),
   }),
+
+  callbacks: {
+    async session({ session, user, token }) {
+      
+      return {
+        ...session,
+        ...user
+      }
+    },
+  }
+  
 };
