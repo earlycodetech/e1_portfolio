@@ -1,9 +1,10 @@
+import NewProjectForm from '@/components/NewProjectForm'
 import ProjectCard from '@/components/ProjectCard'
 import Link from 'next/link'
 import React from 'react'
 
 export const metadata = {
-    title: "My Projects - EarlyCode",
+    title: "Create New Project - EarlyCode",
     description: "Here I Set up my Projects"
 }
 const page = () => {
@@ -11,17 +12,20 @@ const page = () => {
     <main className='py-10 bg-gray-50 px-3 lg:px-10'>
         <section >
             <div className="flex justify-between items-center border-b border-orange-600 pb-2">
-                <h1 className='text-4xl font-semibold'>My Projects</h1>
+                <h1 className='text-4xl font-semibold'> New Project </h1>
 
-                <Link href={'/new-project'} className='bg-orange-600 text-white py-1 px-5 rounded-lg'>
-                    New Project
+                <Link href={'/my-projects'} className='bg-orange-600 text-white py-1 px-5 rounded-lg'>
+                    All Projects
                 </Link>
             </div>
 
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 py-5">
-                <ProjectCard />
-            </div>
+            {/* 
+                id, title, link, description, image, status [live, dev], deployDate
+            */}
+            
+            <NewProjectForm />
+
         </section>
     </main>
   )

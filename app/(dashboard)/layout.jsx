@@ -1,13 +1,13 @@
 import AuthProvider from "@/components/AuthProvider";
+import DashboardNav from "@/components/DasboardNav";
 import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import React from "react";
 
 const layout = ({ children }) => {
   return (
     <main>
       <AuthProvider>
-        <Navbar />
+        <DashboardNav />
         {children}
         <Footer />
       </AuthProvider>
