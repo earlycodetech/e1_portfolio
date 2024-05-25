@@ -15,9 +15,9 @@ const session = await getServerSession(authOptions);
 
 const page = () => {
     // console.log("SESSION DATA:", session);
-    // if (!session) {
-    //     redirect('/signin');
-    // }
+    if (session === null) {
+        redirect('/signin');
+    }
   return (
     <main className='py-10 bg-gray-50 px-3 lg:px-10'>
         <section >
