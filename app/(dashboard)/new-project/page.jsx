@@ -1,13 +1,23 @@
+import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import NewProjectForm from '@/components/NewProjectForm'
 import ProjectCard from '@/components/ProjectCard'
+import { getServerSession } from 'next-auth'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
 export const metadata = {
     title: "Create New Project - EarlyCode",
     description: "Here I Set up my Projects"
 }
+
+const session = await getServerSession(authOptions);
+
 const page = () => {
+    // console.log("SESSION DATA:", session);
+    // if (!session) {
+    //     redirect('/signin');
+    // }
   return (
     <main className='py-10 bg-gray-50 px-3 lg:px-10'>
         <section >

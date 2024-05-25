@@ -99,6 +99,15 @@ const NewProjectForm = () => {
                 className="text-red-600 text-sm font-bold"
               />
             </div>
+
+            <div className="text-center col-span-2">
+              <button
+                disabled={isSubmitting}
+                className="bg-orange-500 py-1 px-5 rounded-lg"
+              >
+                Submit
+              </button>
+            </div>
           </Form>
         )}
       </Formik>
