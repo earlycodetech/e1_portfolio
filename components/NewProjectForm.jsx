@@ -3,8 +3,55 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import * as Yup from "yup";
+import { useToast } from "@/components/ui/use-toast"
+
 
 const NewProjectForm = () => {
+
+  const { toast } = useToast()
+
+
+  const ALLOWED_FILE_TYPES = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/gif",
+  ];
+  const ALLOWED_FILE_SIZE = 5 * 1024 * 1024; //5mb
+
+  const formValidation = Yup.object().shape({
+    title: Yup.string()
+      .required("Title is required")
+      .min(3, "Title must be at least 3 characters"),
+    link: Yup.string().required("Link is required").url("Link must be a url"),
+    description: Yup.string().required("Description is required"),
+    deployDate: Yup.string().required("Deployed Date is required"),
+    status: Yup.string()
+      .required("Status is required")
+      .oneOf(["live", "dev"], "Invalid Status"),
+    image: Yup.mixed()
+      .required("Image is required")
+      .test(
+        "fileFormat",
+        "Invalid file type, allowed types: jpeg, jpg, png, gif",
+        (value) => value && ALLOWED_FILE_TYPES.includes(value.type)
+      )
+      .test(
+        "fileSize",
+        "Invalid file size, max: 5mb",
+        (value) => value && value.size <= ALLOWED_FILE_SIZE
+      ),
+  });
+
+
+  const handleSubmit = (values) => {
+    alert(JSON.stringify(values))
+    toast({
+      title: "Project Created",
+      description: "Your project has been created.",
+    })
+  }
   return (
     <div className="w-full max-w-[50rem] mx-auto bg-white p-5">
       <Formik
@@ -16,6 +63,8 @@ const NewProjectForm = () => {
           deployDate: "",
           status: "dev",
         }}
+        validationSchema={formValidation}
+        onSubmit={(values) => {handleSubmit(values)}}
       >
         {({ isSubmitting, setFieldValue }) => (
           <Form className="gap-5 md:grid-cols-2 grid my-5">
@@ -89,8 +138,8 @@ const NewProjectForm = () => {
               <CKEditor
                 editor={ClassicEditor}
                 data=""
-                onChange={(event) => {
-                  console.log(event);
+                onChange={(event, editor) => {
+                  setFieldValue("description", editor.getData());
                 }}
               />
               <ErrorMessage
