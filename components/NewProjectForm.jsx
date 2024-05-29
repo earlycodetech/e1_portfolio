@@ -1,16 +1,18 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import * as Yup from "yup";
-import { useToast } from "@/components/ui/use-toast"
-
+import { useToast } from "@/components/ui/use-toast";
+import { addDoc, collection } from "firebase/firestore";
+import { db, storage } from "@/lib/firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { RiRefreshLine } from "react-icons/ri";
 
 const NewProjectForm = () => {
-
-  const { toast } = useToast()
-
+  const { toast } = useToast();
+  const [processing, setProccessing] = useState(false)
 
   const ALLOWED_FILE_TYPES = [
     "image/jpeg",
@@ -44,14 +46,42 @@ const NewProjectForm = () => {
       ),
   });
 
+  const handleSubmit = async (values) => {
+    try {
+      // Updload File
+      setProccessing(true);
+      const ext = values.image.name.split(".").pop();
+      const fileName = `project_image_${new Date().getTime()}.${ext}`;
 
-  const handleSubmit = (values) => {
-    alert(JSON.stringify(values))
-    toast({
-      title: "Project Created",
-      description: "Your project has been created.",
-    })
-  }
+      const storageRef = ref(storage, "uploads/" + fileName);
+      await uploadBytes(storageRef, values.image);
+
+      // Get Download URL
+      const downloadUrl = await getDownloadURL(ref(storage, storageRef));
+
+      // Create a new object to be stored
+      const project = {
+        title: values.title,
+        link: values.link,
+        description: values.description,
+        deployDate: values.deployDate,
+        status: values.status,
+        fileName: fileName,
+        fileUrl: downloadUrl,
+      };
+
+      // Document reference for firestore
+      const docRef = collection(db, "projects");
+      await addDoc(docRef, project);
+      toast({
+        title: "Project Created",
+        description: "Your project has been created.",
+      });
+    } catch (error) {
+      alert(error);
+      console.error(error);
+    }
+  };
   return (
     <div className="w-full max-w-[50rem] mx-auto bg-white p-5">
       <Formik
@@ -59,12 +89,23 @@ const NewProjectForm = () => {
           title: "",
           link: "",
           description: "",
-          image: "",
+          image: null,
           deployDate: "",
           status: "dev",
         }}
         validationSchema={formValidation}
-        onSubmit={(values) => {handleSubmit(values)}}
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          try {
+            handleSubmit(values);
+          } catch (error) {
+            console.error(error);
+          }
+          finally {
+            setSubmitting(false)
+            resetForm();
+            setProccessing(false);
+          }
+        }}
       >
         {({ isSubmitting, setFieldValue }) => (
           <Form className="gap-5 md:grid-cols-2 grid my-5">
@@ -143,18 +184,22 @@ const NewProjectForm = () => {
                 }}
               />
               <ErrorMessage
-                name="deployDate"
+                name="description"
                 component={"p"}
                 className="text-red-600 text-sm font-bold"
               />
             </div>
 
-            <div className="text-center col-span-2">
+            <div className="text-center col-span-2 flex justify-center">
               <button
                 disabled={isSubmitting}
-                className="bg-orange-500 py-1 px-5 rounded-lg"
+                type="submit"
+                className="bg-orange-500 py-1 px-5 rounded-lg flex justify-center gap-3 text-white items-center"
               >
                 Submit
+
+                {processing && <RiRefreshLine className="animate-spin" /> }
+                
               </button>
             </div>
           </Form>
