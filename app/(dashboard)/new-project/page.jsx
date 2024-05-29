@@ -14,7 +14,6 @@ export const metadata = {
 const session = await getServerSession(authOptions);
 
 const page = () => {
-    // console.log("SESSION DATA:", session);
     if (session === null) {
         redirect('/signin');
     }
