@@ -77,9 +77,14 @@ const NewProjectForm = () => {
         title: "Project Created",
         description: "Your project has been created.",
       });
+
+      resetForm();
     } catch (error) {
       alert(error);
       console.error(error);
+    }
+    finally {
+      setSubmitting(false)
     }
   };
   return (
@@ -94,18 +99,7 @@ const NewProjectForm = () => {
           status: "dev",
         }}
         validationSchema={formValidation}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          try {
-            handleSubmit(values);
-          } catch (error) {
-            console.error(error);
-          }
-          finally {
-            setSubmitting(false)
-            resetForm();
-            setProccessing(false);
-          }
-        }}
+        onSubmit={handleSubmit}
       >
         {({ isSubmitting, setFieldValue }) => (
           <Form className="gap-5 md:grid-cols-2 grid my-5">
@@ -198,7 +192,7 @@ const NewProjectForm = () => {
               >
                 Submit
 
-                {processing && <RiRefreshLine className="animate-spin" /> }
+                {isSubmitting && <RiRefreshLine className="animate-spin" /> }
                 
               </button>
             </div>
