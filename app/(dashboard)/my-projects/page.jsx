@@ -1,5 +1,5 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/options';
-import ProjectCard from '@/components/ProjectCard'
+import AllProjects from '@/components/AllProjects';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link'
 import { redirect } from 'next/navigation';
@@ -27,9 +27,7 @@ const page = () => {
             </div>
 
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 py-5">
-                <ProjectCard />
-            </div>
+           <AllProjects />
         </section>
     </main>
   )
