@@ -5,6 +5,7 @@ import React from "react";
 const ProjectCard = ({data}) => {
   const {fileUrl, status, title, deployDate} =  data
 
+  console.log(data);
   return (
     <div className="relative">
       <Image
@@ -24,7 +25,7 @@ const ProjectCard = ({data}) => {
       </p>
 
       <div className="text-center my-3">
-        <Link href={"#"} className="bg-orange-800 py-1 px-4 rounded-lg text-white hover:bg-orange-700">
+        <Link href={"/view-project/" + data.id} className="bg-orange-800 py-1 px-4 rounded-lg text-white hover:bg-orange-700">
             View Project
         </Link>
       </div>

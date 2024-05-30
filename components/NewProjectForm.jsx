@@ -5,7 +5,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import * as Yup from "yup";
 import { useToast } from "@/components/ui/use-toast";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db, storage } from "@/lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { RiRefreshLine } from "react-icons/ri";
@@ -68,6 +68,7 @@ const NewProjectForm = () => {
         status: values.status,
         fileName: fileName,
         fileUrl: downloadUrl,
+        createdAt: serverTimestamp
       };
 
       // Document reference for firestore

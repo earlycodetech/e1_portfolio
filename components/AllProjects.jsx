@@ -13,7 +13,11 @@ const AllProjects = () => {
     const querySnapshot = await getDocs(collection(db, "projects"));
     let allProjects = [];
     querySnapshot.forEach((doc) => {
-      allProjects.push(doc.data());
+        
+      allProjects.push({
+        ...doc.data(),
+        id: doc.id
+      });
     });
 
     setProjects(allProjects);
