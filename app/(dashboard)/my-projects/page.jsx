@@ -10,8 +10,8 @@ export const metadata = {
     description: "Here I Set up my Projects"
 }
 
-const session =  await getServerSession(authOptions);
-const page = () => {
+const page = async () => {
+    const session =  await getServerSession(authOptions);
     if (session === null) {
         redirect('/signin')
     }
