@@ -12,7 +12,6 @@ import { RiRefreshLine } from "react-icons/ri";
 
 const NewProjectForm = () => {
   const { toast } = useToast();
-  const [processing, setProccessing] = useState(false)
 
   const ALLOWED_FILE_TYPES = [
     "image/jpeg",
@@ -46,20 +45,20 @@ const NewProjectForm = () => {
       ),
   });
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { resetForm, setSubmitting }) => {
     try {
-      // Updload File
-      setProccessing(true);
-      const ext = values.image.name.split(".").pop();
-      const fileName = `project_image_${new Date().getTime()}.${ext}`;
-
-      const storageRef = ref(storage, "uploads/" + fileName);
-      await uploadBytes(storageRef, values.image);
-
+  
+      // Upload File
+      const ext = values.image.name.split(".").pop(); // Get the file extension
+      const fileName = `project_image_${new Date().getTime()}.${ext}`; // Create a unique file name
+  
+      const storageRef = ref(storage, "uploads/" + fileName); // Create a storage reference
+      await uploadBytes(storageRef, values.image); // Upload the file
+  
       // Get Download URL
-      const downloadUrl = await getDownloadURL(ref(storage, storageRef));
-
-      // Create a new object to be stored
+      const downloadUrl = await getDownloadURL(storageRef); // Get the file download URL
+  
+      // Create a new project object to be stored
       const project = {
         title: values.title,
         link: values.link,
@@ -68,24 +67,28 @@ const NewProjectForm = () => {
         status: values.status,
         fileName: fileName,
         fileUrl: downloadUrl,
-        createdAt: serverTimestamp
+        createdAt: serverTimestamp()
       };
-
-      // Document reference for firestore
+  
+      // Add the new project to the Firestore collection
       const docRef = collection(db, "projects");
       await addDoc(docRef, project);
+  
+      // Show success message
       toast({
         title: "Project Created",
         description: "Your project has been created.",
       });
-
+  
+      // Reset the form
       resetForm();
     } catch (error) {
-      alert(error);
+      // Show error alert
+      alert("Failed to create project: " + error.message);
       console.error(error);
-    }
-    finally {
-      setSubmitting(false)
+    } finally {
+      // Set submitting state to false
+      setSubmitting(false);
     }
   };
   return (
@@ -189,7 +192,7 @@ const NewProjectForm = () => {
               <button
                 disabled={isSubmitting}
                 type="submit"
-                className="bg-orange-500 py-1 px-5 rounded-lg flex justify-center gap-3 text-white items-center"
+                className="bg-orange-500 py-1 px-5 rounded-lg flex text-2xl justify-center gap-3 text-white items-center"
               >
                 Submit
 

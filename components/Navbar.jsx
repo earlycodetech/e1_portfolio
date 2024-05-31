@@ -37,7 +37,7 @@ const Navbar = () => {
     {
       id: 4,
       title: "Portfolio",
-      url: "/portfolio",
+      url: "/all-projects",
     },
     {
       id: 5,
