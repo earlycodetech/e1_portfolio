@@ -4,8 +4,8 @@ import React from 'react'
 import { authOptions } from '../api/auth/[...nextauth]/options'
 import { redirect } from 'next/navigation'
 
-const session =  await getServerSession(authOptions);
-function SignIn() {
+async function SignIn() {
+  const session =  await getServerSession(authOptions);
   // If the user session exist don't show signin
   if (session?.user) {
     redirect("/");
