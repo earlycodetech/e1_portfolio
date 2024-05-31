@@ -6,7 +6,8 @@ import { redirect } from 'next/navigation'
 
 async function SignIn() {
   const session =  await getServerSession(authOptions);
-  // If the user session exist don't show signin
+  // If the user session exist don't show signin.
+  // Check if the users have a session created.
   if (session?.user) {
     redirect("/");
   }
