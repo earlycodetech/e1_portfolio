@@ -2,7 +2,24 @@ import React from "react";
 import "../../styles/index.css";
 import Image from "next/image";
 import ProjectCard from "@/components/ProjectCard";
-const HomePage = () => {
+import { collection, query, orderBy, limit, getDocs } from "firebase/firestore"; 
+import { db } from "@/lib/firebase";
+import Link from "next/link";
+
+
+const HomePage = async () => {
+  const projectsQuery = query(collection(db, "projects"), orderBy('createdAt', 'desc'), limit(6));
+  const querySnapshot = await getDocs(projectsQuery);
+  const projects = [];
+  
+  querySnapshot.forEach(doc => {
+    projects.push({
+      ...doc.data(),
+      id: doc.id
+    });
+  });
+  
+
   return (
     <main>
       <div className="bg-black h-[32rem] flex items-center gap-5 justify-center hero">
@@ -24,6 +41,7 @@ const HomePage = () => {
             width={1800}
             height={900}
             className="w-full h-full object-contain"
+            priority
           />
         </div>
       </div>
@@ -31,8 +49,17 @@ const HomePage = () => {
       <div className="my-10">
         <h3 className="text-center font-bold text-2xl"> My Recent Projects </h3>
 
+        <div className="flex justify-end px-5 my-5">
+          <Link href={'/all-projects'}>
+            View All
+          </Link>
+        </div>
+
         <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8 mx-2 md:mx-8">
-          <ProjectCard />
+          {projects.length < 1 ? ( <h1> Coming Soon... </h1> ) : (
+            projects.map(project =>  <ProjectCard key={project.id} data={project} guest={true} />)
+          )}
+         
         </div>
       </div>
     </main>

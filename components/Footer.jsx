@@ -6,7 +6,7 @@ const Footer = () => {
         <p className='text-2xl'>
             Get in Touch with me at: <br />
             
-            <span className='text-5xl'>
+            <span className='text-5xl max-md:text-2xl'>
                 hireme@earlycode.com
             </span>
 
