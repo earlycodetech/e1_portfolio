@@ -4,16 +4,6 @@ import React from "react";
 import DeleteProject from "./DeleteProject";
 
 const ProjectCard = ({ data, guest, reset }) => {
-  if (!data) {
-    data = {
-      fileUrl: "",
-      fileName: "",
-      status: "dev",
-      title: "Loading...",
-      deployDate: "Loading...",
-      id: Math.random() * 10000,
-    };
-  }
   const { fileUrl, fileName, status, title, deployDate, id } = data;
   return (
     <div className="relative flex flex-col gap-3 mb-10 hover:shadow pb-5 transition-shadow">
