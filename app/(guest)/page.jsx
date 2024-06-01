@@ -2,23 +2,30 @@ import React from "react";
 import "../../styles/index.css";
 import Image from "next/image";
 import ProjectCard from "@/components/ProjectCard";
-import { collection, query, orderBy, limit, getDocs } from "firebase/firestore"; 
+import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Link from "next/link";
+import next from "next";
 
+export const revalidate = 0 // revalidate at most every hour
 
 const HomePage = async () => {
-  const projectsQuery = query(collection(db, "projects"), orderBy('createdAt', 'desc'), limit(6));
-  const querySnapshot = await getDocs(projectsQuery);
+  const projectsQuery = query(
+    collection(db, "projects"),
+    orderBy("createdAt", "desc"),
+    limit(6)
+  );
+  const querySnapshot = await getDocs(projectsQuery, {
+    next: { revalidate: 3000 },
+  });
   const projects = [];
-  
-  querySnapshot.forEach(doc => {
+
+  querySnapshot.forEach((doc) => {
     projects.push({
       ...doc.data(),
-      id: doc.id
+      id: doc.id,
     });
   });
-  
 
   return (
     <main>
@@ -50,16 +57,17 @@ const HomePage = async () => {
         <h3 className="text-center font-bold text-2xl"> My Recent Projects </h3>
 
         <div className="flex justify-end px-5 my-5">
-          <Link href={'/all-projects'}>
-            View All
-          </Link>
+          <Link href={"/all-projects"}>View All</Link>
         </div>
 
         <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8 mx-2 md:mx-8">
-          {projects.length < 1 ? ( <h1> Coming Soon... </h1> ) : (
-            projects.map(project =>  <ProjectCard key={project.id} data={project} guest={true} />)
+          {projects.length < 1 ? (
+            <h1> Coming Soon... </h1>
+          ) : (
+            projects.map((project) => (
+              <ProjectCard key={project.id} data={project} guest={true} />
+            ))
           )}
-         
         </div>
       </div>
     </main>
