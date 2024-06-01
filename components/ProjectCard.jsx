@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React from "react";
 import DeleteProject from "./DeleteProject";
+import Image from "next/image";
 
 const ProjectCard = ({ data, guest, reset }) => {
   if (!data) {
@@ -17,7 +18,15 @@ const ProjectCard = ({ data, guest, reset }) => {
   const { fileUrl, fileName, status, title, deployDate, id } = data;
   return (
     <div className="relative flex flex-col gap-3 mb-10 hover:shadow pb-5 transition-shadow">
-      <img src={fileUrl} alt="Project" className="w-full h-56 object-cover" />
+      {/* <img src={fileUrl} alt="Project" className="w-full h-56 object-cover" /> */}
+      <Image 
+        src={fileUrl}
+        width={980}
+        height={650}
+        alt={title}
+        className="w-full h-56 object-cover"
+        placeholder="blur"
+      />
       <p className="mt-2 font-semibold text-2xl px-2"> {title} </p>
       <p className="mt-1 font-medium px-2"> {deployDate} </p>
       <p
