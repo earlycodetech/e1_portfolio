@@ -99,7 +99,7 @@ const Navbar = () => {
             <Avatar className="mx-5">
               <AvatarImage src={session.user.image} />
               <AvatarFallback>
-                {session.user.name.slice(0, 2).toUpperCase()}{" "}
+                {session.user?.name && session.user.name.slice(0, 2).toUpperCase()}{" "}
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
