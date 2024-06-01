@@ -15,8 +15,14 @@ import { RiRefreshLine } from "react-icons/ri";
 const AllProjects = ({guest}) => {
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
+
+  // The last visible state holds the last object retrieved from firestore
   const [lastVisible, setLastVisible] = useState(null);
-  const [hasMore, setHasMore] = useState(true); // Track if there are more projects to load
+
+  // The hasMore state tracks if there are more projects to load
+  const [hasMore, setHasMore] = useState(true); 
+
+  // Limit per load
   const projectsPerPage = 3;
 
   const getAllProjects = async (reset = false) => {
@@ -25,12 +31,14 @@ const AllProjects = ({guest}) => {
     let projectsQuery;
 
     if (reset) {
+      // This runs if we reset the values
       projectsQuery = query(
         projectsCollection,
         orderBy("createdAt", "desc"),
         limit(projectsPerPage)
       );
     } else if (lastVisible) {
+      // This runs when we load more values
       projectsQuery = query(
         projectsCollection,
         orderBy("createdAt", "desc"),
@@ -38,6 +46,7 @@ const AllProjects = ({guest}) => {
         limit(projectsPerPage)
       );
     } else {
+      // This is the first query to run when you visit the page
       projectsQuery = query(
         projectsCollection,
         orderBy("createdAt", "desc"),
@@ -53,7 +62,14 @@ const AllProjects = ({guest}) => {
     }));
 
     setProjects((prevProjects) => reset ? newProjects : [...prevProjects, ...newProjects]);
+
+    /* `setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);` is setting the last visible
+    document retrieved from Firestore in the state variable `lastVisible`. This is used to keep
+    track of the last document that was fetched, so that when loading more projects, the query can
+    start after this last visible document to fetch the next set of projects. */
     setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
+
+    
     setLoading(false);
 
     if (querySnapshot.docs.length < projectsPerPage) {

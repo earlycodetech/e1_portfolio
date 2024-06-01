@@ -15,9 +15,9 @@ const GithubButton = () => {
       <button
         disabled={processing}
         onClick={handleSignIn}
-        className="bg-emerald-700 w-full mt-5 flex items-center gap-4 justify-center text-white py-3 px-7 rounded-lg"
+        className="bg-slate-950 w-full mt-5 flex items-center gap-4 justify-center text-white py-3 px-7 rounded-lg"
       >
-        <FaGithub /> Sign In with Google {processing && <RiRefreshLine className="animate-spin" />}
+        <FaGithub /> Sign In with GitHub {processing && <RiRefreshLine className="animate-spin" />}
       </button>
     </div>
   );

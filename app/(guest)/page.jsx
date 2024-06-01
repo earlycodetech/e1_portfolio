@@ -5,19 +5,17 @@ import ProjectCard from "@/components/ProjectCard";
 import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Link from "next/link";
-import next from "next";
 
-export const revalidate = 0 // revalidate at most every hour
+export const revalidate = 0 // revalidate at 10 seconds
 
 const HomePage = async () => {
+  const projectRef = collection(db, "projects");
   const projectsQuery = query(
-    collection(db, "projects"),
+    projectRef,
     orderBy("createdAt", "desc"),
     limit(6)
   );
-  const querySnapshot = await getDocs(projectsQuery, {
-    next: { revalidate: 3000 },
-  });
+  const querySnapshot = await getDocs(projectsQuery);
   const projects = [];
 
   querySnapshot.forEach((doc) => {
