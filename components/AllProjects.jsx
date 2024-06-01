@@ -49,6 +49,7 @@ const AllProjects = ({guest}) => {
     const newProjects = querySnapshot.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
+      createdAt: doc.data().createdAt.toMillis()
     }));
 
     setProjects((prevProjects) => reset ? newProjects : [...prevProjects, ...newProjects]);

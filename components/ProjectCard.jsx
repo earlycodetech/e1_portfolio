@@ -21,7 +21,7 @@ const ProjectCard = ({ data, guest, reset }) => {
   if (deployDate != "Loading...") {
     const date = new Date(deployDate);
      dateFormated = new Intl.DateTimeFormat("en-Gb", {
-      dateStyle: "full",
+      dateStyle: "medium",
     }).format(date);
   }
 
@@ -35,9 +35,10 @@ const ProjectCard = ({ data, guest, reset }) => {
         alt={title}
         className="w-full h-56 object-cover"
         placeholder="blur"
+        blurDataURL="/shimmer.gif"
       />
       <p className="mt-2 font-semibold text-2xl px-2"> {title} </p>
-      <p className="mt-1 font-medium px-2"> {dateFormated ? dateFormated : deployDate} </p>
+      <p className="mt-1 font-medium px-2 "> Deployed: {dateFormated ? dateFormated : deployDate} </p>
       <p
         className={`absolute top-0 right-0 mt-2 mr-2 font-semibold ${
           status == "live" ? "bg-green-600" : "bg-blue-600"

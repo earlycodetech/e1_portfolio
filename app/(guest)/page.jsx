@@ -24,6 +24,7 @@ const HomePage = async () => {
     projects.push({
       ...doc.data(),
       id: doc.id,
+      createdAt: doc.data().createdAt.toMillis()
     });
   });
 
