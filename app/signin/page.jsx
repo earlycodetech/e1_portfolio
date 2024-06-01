@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import React from 'react'
 import { authOptions } from '../api/auth/[...nextauth]/options'
 import { redirect } from 'next/navigation'
+import GithubButton from '@/components/GithubButton'
 
 async function SignIn() {
   const session =  await getServerSession(authOptions);
@@ -15,6 +16,7 @@ async function SignIn() {
     <div className='min-h-dvh flex items-center justify-center'>
         <div className="w-96 shadow-lg p-3 text-center">
             <GoogleButton />
+            <GithubButton />
         </div>
     </div>
   )
