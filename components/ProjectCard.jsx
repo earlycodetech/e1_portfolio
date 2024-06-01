@@ -16,10 +16,14 @@ const ProjectCard = ({ data, guest, reset }) => {
     };
   }
   const { fileUrl, fileName, status, title, deployDate, id } = data;
-  const date = new Date(deployDate);
-  const dateFormated = new Intl.DateTimeFormat("en-Gb", {
-    dateStyle: "full",
-  }).format(date);
+
+  let dateFormated;
+  if (deployDate != "Loading...") {
+    const date = new Date(deployDate);
+     dateFormated = new Intl.DateTimeFormat("en-Gb", {
+      dateStyle: "full",
+    }).format(date);
+  }
 
   return (
     <div className="relative flex flex-col gap-3 mb-10 hover:shadow pb-5 transition-shadow">
@@ -33,7 +37,7 @@ const ProjectCard = ({ data, guest, reset }) => {
         placeholder="blur"
       />
       <p className="mt-2 font-semibold text-2xl px-2"> {title} </p>
-      <p className="mt-1 font-medium px-2"> {dateFormated} </p>
+      <p className="mt-1 font-medium px-2"> {dateFormated ? dateFormated : deployDate} </p>
       <p
         className={`absolute top-0 right-0 mt-2 mr-2 font-semibold ${
           status == "live" ? "bg-green-600" : "bg-blue-600"
