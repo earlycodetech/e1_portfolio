@@ -32,7 +32,7 @@ const HomePage = async () => {
         <div className="w-full pl-10 leading-8">
           <p className="font-semibold">Get The Best Web Solutions</p>
 
-          <p className="text-5xl font-bold">Hi, I'm Earlycode</p>
+          <p className="text-5xl font-bold">Hi, I'm Calyb</p>
 
           <p className="font-semibold">
             I am a full stack web developer, delivering web solutions using
