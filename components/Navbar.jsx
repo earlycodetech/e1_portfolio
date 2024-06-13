@@ -57,7 +57,7 @@ const Navbar = () => {
           height={900}
           className="w-12"
         />
-        <span className="font-bold text-2xl italic">Earlycode</span>
+        <span className="font-bold text-2xl italic"> Calyb</span>
       </Link>
 
       <ul
