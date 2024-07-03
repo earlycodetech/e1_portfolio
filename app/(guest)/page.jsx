@@ -54,10 +54,10 @@ const HomePage = async () => {
 
       <div className="my-10">
         <h3 className="text-center font-bold text-2xl"> My Recent Projects </h3>
-
+{/* 
         <div className="flex justify-end px-5 my-5">
           <Link href={"/all-projects"}>View All</Link>
-        </div>
+        </div> */}
 
         <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8 mx-2 md:mx-8">
           {projects.length < 1 ? (

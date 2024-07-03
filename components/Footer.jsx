@@ -7,7 +7,7 @@ const Footer = () => {
             Get in Touch with me at: <br />
             
             <span className='text-5xl max-md:text-2xl'>
-                hireme@earlycode.com
+                calebrandy@gmail.com
             </span>
 
             <br /><br />
